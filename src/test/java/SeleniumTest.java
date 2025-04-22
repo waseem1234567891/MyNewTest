@@ -3,6 +3,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
@@ -13,16 +15,13 @@ public class SeleniumTest {
 
     @BeforeMethod
     public void setUp() {
-        System.setProperty("webdriver.chrome.driver", "C:\\path\\to\\chromedriver.exe");
+        System.setProperty("webdriver.edge.driver", "C:\\Users\\Win11 Pro\\Downloads\\edgedriver_win32\\msedgedriver.exe");
 
-        ChromeOptions options = new ChromeOptions();
+        EdgeOptions options = new EdgeOptions();
         options.addArguments("--headless");
         options.addArguments("--disable-gpu");
-        options.addArguments("--window-size=1920,1080");
-        options.addArguments("--disable-extensions");
-        options.addArguments("--no-sandbox");
 
-        driver = new ChromeDriver(options);
+        driver = new EdgeDriver(options);
     }
 
     @Test
