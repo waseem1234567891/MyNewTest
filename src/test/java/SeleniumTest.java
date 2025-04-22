@@ -18,8 +18,12 @@ public class SeleniumTest {
         System.setProperty("webdriver.edge.driver", "C:\\Users\\Win11 Pro\\Downloads\\edgedriver_win32\\msedgedriver.exe");
 
         EdgeOptions options = new EdgeOptions();
-        options.addArguments("--headless");
+        options.addArguments("--headless=new"); // ✅ Edge now requires `--headless=new`
         options.addArguments("--disable-gpu");
+        options.addArguments("--remote-debugging-port=9222");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--window-size=1920,1080");
 
         driver = new EdgeDriver(options);
     }
