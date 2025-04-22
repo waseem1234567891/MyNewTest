@@ -1,32 +1,32 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
-import java.net.URL;
-
 public class SeleniumTest {
-
-
 
     WebDriver driver;
     String baseUrl = "https://www.google.com";
 
     @Parameters("browser")
     @BeforeMethod
-    public void setUp(String browser) throws Exception {
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-
-        if (browser.equalsIgnoreCase("firefox")) {
-            capabilities.setBrowserName("firefox");
-        } else if (browser.equalsIgnoreCase("edge")) {
-            capabilities.setBrowserName("MicrosoftEdge");
+    public void setUp(String browser) {
+        if (browser.equalsIgnoreCase("chrome")) {
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("--headless", "--disable-gpu");
+            driver = new ChromeDriver(options);
+        } else if (browser.equalsIgnoreCase("firefox")) {
+            FirefoxOptions options = new FirefoxOptions();
+            options.addArguments("--headless");
+            driver = new FirefoxDriver(options);
+        } else {
+            throw new IllegalArgumentException("Unsupported browser: " + browser);
         }
-
-        driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), capabilities);
     }
 
     @Test
@@ -57,14 +57,10 @@ public class SeleniumTest {
         searchBox.sendKeys("Selenium Grid");
         searchBox.submit();
 
-        // Wait for results
         WebElement results = driver.findElement(By.id("search"));
         Assert.assertTrue(results.isDisplayed(), "Search results should be visible");
         Assert.assertTrue(driver.getTitle().toLowerCase().contains("selenium grid"));
     }
-
-
-
 
     @AfterMethod
     public void tearDown() {
@@ -72,7 +68,4 @@ public class SeleniumTest {
             driver.quit();
         }
     }
-
-
-
 }
